@@ -1,42 +1,44 @@
-import random
-
-# --- Nosso "Canal" de Alertas ---
-def enviar_alerta(status, texto):
+# Função para enviar alertas
+def enviar_alerta(status, servico, autor, commit_hash):
     print()
 
     if status == "sucesso":
-        print("=== ALERTA DE SUCESSO ===")
-        print("Mensagem:", texto)
-        print("=========================")
+        print("✅ SUCESSO: Deploy concluído!")
+        print("-----------------------------------")
+        print("Serviço:", servico)
+        print("Autor(a):", autor)
+        print("Commit:", commit_hash)
+        print(f"Link: https://github.com/empresa/{servico}/commit/{commit_hash}")
+        print("-----------------------------------")
     else:
-        print("=== ALERTA DE ERRO ===")
-        print("Mensagem:", texto)
-        print("======================")
+        print("⚠️ ATENÇÃO: O build falhou.")
+        print("-----------------------------------")
+        print("Serviço:", servico)
+        print("Autor(a) do último commit:", autor)
+        print("Commit da falha:", commit_hash)
+        print("Ação recomendada: Verificar os logs do build.")
+        print("Link para os logs: https://ci.empresa.com/builds/123/logs")
+        print("-----------------------------------")
 
     print()
 
 
-# --- Função que Simula o Build ---
-def executar_build():
-    # Sorteia 1 (sucesso) ou 2 (falha)
-    resultado = random.randint(1, 2)
+# Programa principal
+resultado = int(input("Digite 1 para sucesso ou 2 para falha: "))
 
-    if resultado == 1:
-        return True
-    else:
-        return False
-
-
-# --- Programa Principal ---
-build_sucesso = executar_build()
-
-if build_sucesso:
+if resultado == 1:
     enviar_alerta(
         "sucesso",
-        "O build da versão 1.2.0 foi concluído."
+        "servico-de-pagamentos",
+        "Maria Silva",
+        "7a3b1f9"
     )
-else:
+elif resultado == 2:
     enviar_alerta(
         "erro",
-        "O build falhou no commit 'a3b1c9'."
+        "servico-de-login",
+        "João Souza",
+        "a4c2d8e"
     )
+else:
+    print("Opção inválida! Digite apenas 1 ou 2.")
